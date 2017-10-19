@@ -1,6 +1,6 @@
 var d=document;
 var submitButton = d.getElementById("submission");
-var workers = workers = d.getElementById("workers");
+var workers = d.getElementById("workers");
 var results = d.getElementById("results");
 var clicked = 0;
 
