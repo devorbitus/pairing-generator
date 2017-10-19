@@ -1,8 +1,44 @@
 var d=document;
 var submitButton = d.getElementById("submission");
-var workers = d.getElementById("workers");
+var workers = workers = d.getElementById("workers");
 var results = d.getElementById("results");
 var clicked = 0;
+
+
+window.onload = generateInputElements();
+
+function generateInputElements(){
+  
+//edit your available developers here so you don't have to change 4 html attributes every time
+
+  var devs = [
+    { name:"Elder", checked:"true"},
+    { name:"Kyle", checked:"true"},
+    { name:"Kent", checked:"true"},
+    { name:"Gruel", checked:"true"},
+    { name:"John", checked:"true"},
+    { name:"Karthig", checked:"true"},
+    { name:"Pradeep", checked:"true"},
+    { name:"Jeff", checked:"false"}
+  ];
+  for(var i = 0; i < devs.length; i++) {
+    var apron = d.createElement('input');
+    apron.setAttribute("type", "checkbox");
+    if(devs[i].checked === "true"){
+      apron.setAttribute("checked", "");
+    }
+    apron.setAttribute("value", devs[i].name);
+    apron.id = devs[i].name;
+    var label = d.createElement("label");
+    label.setAttribute("for", devs[i].name);
+    label.innerHTML = devs[i].name;
+    workers.appendChild(apron);
+    apron.insertAdjacentHTML('afterend', "\n");
+    apron.insertAdjacentHTML('afterend',label.outerHTML);
+  }
+  console.log("Thank you Zero");
+}
+
 
 //submit event registration
 submitButton.onclick = function () {
