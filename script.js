@@ -14,8 +14,9 @@ function generateInputElements(){
   var devs = [
     { name:"Elder", checked:"true"},
     { name:"Kyle", checked:"true"},
-    { name:"Kent", checked:"true"},
+    { name:"Kevin", checked:"true"},
     { name:"Gruel", checked:"true"},
+    { name:"Gopal", checked:"true"},
     { name:"John", checked:"true"},
     { name:"Karthig", checked:"true"},
     { name:"Pradeep", checked:"true"},
