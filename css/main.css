@@ -2,11 +2,10 @@ body {
   font-size: 1.25em;
   font-weight: 400;
   line-height: 1.45;
-  color: #FF4C00;
+  color: #666666;
   text-align: center;
-  font-family: 'Press Start 2P', 'cursive';
   padding: 40px;
-  background-color: #043C6B;
+  background-color: #ffffff;
 }
 
 p {margin-bottom: 1.3em;}
@@ -44,28 +43,28 @@ ul {
 }
 
 .pair {
-  margin: 40px 20px;
+  box-sizing: border-box;
+  border-radius: 1px;
+  background-color: #ffffff;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24);
   display: inline-block;
-  width: 28%;
-  background-color: #FF4C00;
-  color: #043C6B;
+  min-width: 360px;
+  padding: 20px 20px 40px;
+  margin: 20px;
 }
 
 #submission {
+  border-radius: 2px;
   position: relative;
   vertical-align: top;
   width: 40%;
   height: 60px;
   padding: 0;
   font-size: 22px;
-  background: #00AE68;
+  background-color: #f96302;
+  color: #ffffff;
   border: 0;
-  border-bottom: 2px solid #21825B;
   cursor: pointer;
-  -webkit-box-shadow: inset 0 -2px #21825B;
-  box-shadow: inset 0 -2px #21825B;
-  font-family: 'Press Start 2P', 'cursive';
-  color: #043C6B;
 }
 #submission:active {
   top: 1px;
@@ -79,17 +78,18 @@ ul {
 }
 
 input[type="checkbox"] {
+  border-radius: 2px;
   display:none;
 }
 input[type="checkbox"] + label {
   padding: 4px;
-  background-color: #043C6B;
-  color: #FF4C00;
-  cursor: pointer; cursor: hand;
+  cursor: hand;
+  background-color: #dddddd;
+  color: #666666;
 }
 input[type="checkbox"]:checked + label {
-  background-color: #FF4C00;
-  color: #043C6B;
+  background-color: #f96302;
+  color: #ffffff;
 }
 
 .hidden {
