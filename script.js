@@ -19,7 +19,7 @@ function generateInputElements(){
     { name:"John", checked:"true", strong: true },
     { name:"Karthig", checked:"true", strong: false },
     { name:"Pradeep", checked:"true", strong: true },
-    { name:"Jeff", checked:"false", strong:t rue }
+    { name:"Jeff", checked:"false", strong:true }
   ];
 
   devs = devs.sort(sortDevsByName);
