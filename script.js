@@ -8,26 +8,34 @@ var clicked = 0;
 window.onload = generateInputElements();
 
 function generateInputElements(){
-  
-//edit your available developers here so you don't have to change 4 html attributes every time
 
+ // List of Devs, default checked status, & strength
   var devs = [
-    { name:"Elder", checked:"true"},
-    { name:"Kyle", checked:"true"},
-    { name:"Kevin", checked:"true"},
-    { name:"Gruel", checked:"true"},
-    { name:"Gopal", checked:"true"},
-    { name:"John", checked:"true"},
-    { name:"Karthig", checked:"true"},
-    { name:"Pradeep", checked:"true"},
-    { name:"Jeff", checked:"false"}
+    { name:"Elder", checked:"true", strong: true },
+    { name:"Kyle", checked:"true", strong: false },
+    { name:"Kevin", checked:"true", strong: false },
+    { name:"Gruel", checked:"true", strong: true },
+    { name:"Gopal", checked:"true", strong: false },
+    { name:"John", checked:"true", strong: true },
+    { name:"Karthig", checked:"true", strong: false },
+    { name:"Pradeep", checked:"true", strong: true },
+    { name:"Jeff", checked:"false", strong:true }
   ];
+
+  devs = devs.sort(sortDevsByName);
+  devs = devs.sort(sortDevsByStrength);
+
   for(var i = 0; i < devs.length; i++) {
     var apron = d.createElement('input');
     apron.setAttribute("type", "checkbox");
     if(devs[i].checked === "true"){
       apron.setAttribute("checked", "");
     }
+
+    if(devs[i].strong === true){
+      apron.setAttribute("class", "strong");
+    }
+
     apron.setAttribute("value", devs[i].name);
     apron.id = devs[i].name;
     var label = d.createElement("label");
@@ -46,8 +54,9 @@ submitButton.onclick = function () {
   if (clicked == 0) {
     results.className = "hidden";
     results.innerHTML = "";
-    var workerArray = inputsToArray(workers.children);
-    var pairs = randomPairs(workerArray);
+    var weakPairArray = inputsToWeakArray(workers.children);
+    var strongPairArray = inputsToStrongArray(workers.children);
+    var pairs = randomPairs(strongPairArray,weakPairArray);
     displayResults(pairs);
     results.className = "visible";
   }
@@ -59,29 +68,79 @@ submitButton.onclick = function () {
   }
 }
 
-function inputsToArray (inputs) {
+function inputsToWeakArray (inputs) {
   var arr = [];
   for (var i = 0; i < inputs.length; i++) {
-    if (inputs[i].checked)
+    if (inputs[i].checked && !inputs[i].classList.contains('strong'))
       arr.push(inputs[i].value);
   }
   return arr;
 }
 
-function randomPairs (workersToBePaired) {
-  var listOfPairs = [];
-  var listOfWorkers = workersToBePaired;
-  while (listOfWorkers.length > 0) {
-    var pair = []
-    for (var i = 0; i < 2; i++) {
-      var randomNumber = Math.floor((Math.random() * listOfWorkers.length));
-      var worker = listOfWorkers[randomNumber];
+function inputsToStrongArray (inputs) {
+  var arr = [];
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].checked && inputs[i].classList.contains('strong'))
+      arr.push(inputs[i].value);
+  }
+  return arr;
+}
+
+function randomPairs (strongPairs, weakPairs) {
+  var listOfPairs = [],
+      pair = [],
+      randomNumber,
+      worker
+
+  // Pair out the strong folks first
+  while (strongPairs.length > 0) {
+    pair = []
+
+    // Get a strong for this pair
+    randomNumber = Math.floor((Math.random() * strongPairs.length));
+    worker = strongPairs[randomNumber];
+    pair.push(worker);
+    strongPairs.splice(randomNumber, 1)
+
+    // Find the partner, first pick a weak, and if none left, pick a strong
+    if (weakPairs.length) {
+      randomNumber = Math.floor((Math.random() * weakPairs.length));
+      worker = weakPairs[randomNumber];
       pair.push(worker);
-      listOfWorkers.splice(randomNumber, 1)
+      weakPairs.splice(randomNumber, 1)
+    } else if(strongPairs.length) {
+      randomNumber = Math.floor((Math.random() * strongPairs.length));
+      worker = strongPairs[randomNumber];
+      pair.push(worker);
+      strongPairs.splice(randomNumber, 1)
+    }
+    listOfPairs.push(pair);
+  }
+
+  // If all the strongs have been handled, pair up remaining weaks
+  while (weakPairs.length > 0) {
+    pair = []
+    for (var i=0; i<2; i++) {
+      randomNumber = Math.floor((Math.random() * weakPairs.length));
+      worker = weakPairs[randomNumber];
+      pair.push(worker);
+      weakPairs.splice(randomNumber, 1)
     }
     listOfPairs.push(pair);
   }
   return listOfPairs;
+}
+
+function sortDevsByStrength(a,b) {
+  if (a.strong < b.strong) { return 1; }
+  if (a.strong > b.strong) { return -1; }
+  return 0;
+}
+
+function sortDevsByName(a,b) {
+  if (a.name.toUpperCase() > b.name.toUpperCase()) { return 1; }
+  if (a.name.toUpperCase() < b.name.toUpperCase()) { return -1; }
+  return 0;
 }
 
 function displayResults(pairsArray) {
@@ -89,10 +148,10 @@ function displayResults(pairsArray) {
     var pair = pairsArray[i];
     if (pair[1] !== undefined){
       var pairHtml = '<p>' + pair[0] + '<br>' + pair[1] + '</p>';
-      results.innerHTML += '<div class="pair"> <p>Pair:</p>' + pairHtml + '</div>'; 
+      results.innerHTML += '<div class="pair"> <p>Pair:</p>' + pairHtml + '</div>';
     } else {
       var pairHtml = '<p>' + pair[0] + '</p>';
-      results.innerHTML += '<div class="pair"> <p>No pairing for you:</p>' + pairHtml + '</div>'; 
-      };  
+      results.innerHTML += '<div class="pair"> <p>Lone wolf<br />or Trip up:</p>' + pairHtml + '</div>';
+      };
   }
 }
